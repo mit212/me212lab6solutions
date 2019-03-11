@@ -24,7 +24,7 @@ rospy.init_node('hough', anonymous=True)
 cv_bridge = CvBridge()
 
 def main():
-    rospy.Subscriber('/usb_cam/image_raw', Image, rosHTransformCallback)
+    rospy.Subscriber('/camera/rgb/image_rect_color', Image, rosHTransformCallback)
     print("Subscribing")
     rospy.spin()
 

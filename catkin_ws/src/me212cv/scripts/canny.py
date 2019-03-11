@@ -24,19 +24,19 @@ rospy.init_node('canny', anonymous=True)
 cv_bridge = CvBridge()
 
 def main():
-    rospy.Subscriber('/usb_cam/image_raw', Image, rosHTransformCallback)
+    rospy.Subscriber('/camera/rgb/image_rect_color', Image, rosHTransformCallback)
     print("Subscribing")
     rospy.spin()
 
 
 def rosHTransformCallback(msg):
-    # 1. convert ROS image to opencv format
+    # convert ROS image to opencv format
     try:
         cv_image = cv_bridge.imgmsg_to_cv2(msg, "bgr8")
     except CvBridgeError as e:
         print(e)
 
-    # 2. visualize it in a cv window
+    # visualize it in a cv window
     cv2.imshow("Original_Image", cv_image)
     cv2.waitKey(3)
 

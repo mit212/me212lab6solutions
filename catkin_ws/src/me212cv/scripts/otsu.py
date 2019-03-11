@@ -24,14 +24,14 @@ rospy.init_node('otsu', anonymous=True)
 cv_bridge = CvBridge()
 
 def main():
-    rospy.Subscriber('/usb_cam/image_raw', Image, rosHTransformCallback)
+    rospy.Subscriber('/camera/rgb/image_rect_color', Image, rosHTransformCallback)
     print("Subscribing")
     rospy.spin()
 
 
 
 def rosHTransformCallback(msg):
-    # 1. convert ROS image to opencv format
+    # convert ROS image to opencv format
     try:
         cv_image = cv_bridge.imgmsg_to_cv2(msg, "bgr8")
     except CvBridgeError as e:
@@ -42,7 +42,7 @@ def rosHTransformCallback(msg):
     blurIm = cv2.GaussianBlur(grayIm,(15,5),0)
     blurThresh,otsuImage = cv2.threshold(blurIm,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 
-    # images
+    # show images
     images = [blurIm, 0, otsuImage]
     for i in xrange(1):
         plt.subplot(1,3,i*3+1), plt.imshow(images[i*3], 'gray'),
